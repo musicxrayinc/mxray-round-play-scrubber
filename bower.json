@@ -1,6 +1,6 @@
 {
   "name": "mxray-round-play-scrubber",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/musicxrayinc/mxray-round-play-scrubber",
   "authors": [
     "jeff durand <jeff.durand@gmail.com>"
@@ -27,5 +27,4 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.3",
     "polymer": "polymer/polymer#^1.0.3"
   }
-
 }
