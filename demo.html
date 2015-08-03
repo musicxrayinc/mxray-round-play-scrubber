@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="mxray-round-play-scrubber.html">
+    <style is="custom-style">
+
+      mxray-round-play-scrubber.green {
+        --circle-bg-color: red;
+        --bar-bg-color: green;
+      }
+
+    </style>
+  </head>
+  <body>
+    <template is="dom-bind">
+      <div>
+        <label>duration</label>
+        <input type="text" value="{{duration::input}}"/>
+      </div>
+      <div>
+        <label>playhead</label>
+        <input type="text" value="{{playhead::input}}"/>
+      </div>
+      <mxray-round-play-scrubber radius="90" thickness="40" duration="{{duration}}" playhead="{{playhead}}"></mxray-round-play-scrubber>
+      <mxray-round-play-scrubber radius="32" thickness="10" duration="{{duration}}" playhead="{{playhead}}"></mxray-round-play-scrubber>
+      <mxray-round-play-scrubber class="green" radius="16" thickness="4" duration="{{duration}}" playhead="{{playhead}}"></mxray-round-play-scrubber>
+    </template>
+
+  </body>
+
+</html>

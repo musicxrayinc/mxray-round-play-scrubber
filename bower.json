@@ -1,0 +1,30 @@
+{
+  "name": "mxray-round-play-scrubber",
+  "version": "0.0.0",
+  "authors": [
+    "jeff durand <jeff.durand@gmail.com>"
+  ],
+  "description": "rounded playbar for music xray player",
+  "main": "mxray-round-play-scrubber.html",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "round",
+    "play",
+    "scrubber"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.3",
+    "polymer": "polymer/polymer#^1.0.3"
+  }
+
+}

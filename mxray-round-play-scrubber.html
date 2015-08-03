@@ -1,0 +1,120 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="mxray-round-play-scrubber">
+  <style>
+    circle {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.25s linear;
+      stroke: var(--circle-bg-color, #666);
+    }
+
+    circle.bar {
+      stroke: var(--bar-bg-color, #333333);
+    }
+
+  </style>
+  <template>
+    <svg id="svg" on-tap="_handleClick" width$="{{_svgWidth}}" height$="{{_svgWidth}}" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <circle stroke-width$="{{thickness}}" r$="{{_circleRadius}}" cx$="{{radius}}" cy$="{{radius}}" fill="transparent" stroke-dasharray$="{{circumference}}" stroke-dashoffset="0"></circle>
+      <circle stroke-width$="{{thickness}}" id="bar" class="bar" r$="{{_circleRadius}}" cx$="{{radius}}" cy$="{{radius}}" fill="transparent" stroke-dasharray$="{{circumference}}" stroke-dashoffset="0"></circle>
+    </svg>
+  </template>
+  <script>
+    Polymer({
+      is: "mxray-round-play-scrubber",
+      properties: {
+        duration: {
+          type: Number,
+          value: 0,
+          notify: true
+        },
+        playhead: {
+          type: Number,
+          value: 0,
+          notify: true
+        },
+        playhead_percentage: {
+          type: Number,
+          computed: '_playhead_percentage(playhead,duration)',
+          observer: 'redrawCircles'
+        },
+        radius: {
+          type: Number,
+          value: 32,
+          observer: '_resizeThings'
+        },
+        circumference: {
+          type: Number,
+          computed: '_circumference(radius,thickness)'
+        },
+        thickness: {
+          type: Number,
+          value: 6.0,
+          observer: 'redrawCircles'
+        },
+        progressColor: {
+          type: String,
+          value: '#99CC33',
+          observer: 'redrawCircles'
+        },
+        _svgWidth: {
+          type: Number,
+          value: 1
+        },
+        _circleRadius: {
+          type: Number,
+          computed: '_circleRadiusComputed(radius, thickness)'
+        }
+      },
+      _circleRadiusComputed: function(radius, thickness){
+        //console.log(thickness);
+        return radius - thickness / 2;
+      },
+      _circumference: function(radius,thickness){
+        return 2 * Math.PI * (radius - thickness/2);
+      },
+      _handleClick: function(evt){
+        var left = this.$.svg.getBoundingClientRect().left;
+        var top = this.$.svg.getBoundingClientRect().top;
+        var center = [this.$.svg.getBoundingClientRect().width/2,this.$.svg.getBoundingClientRect().height/2];
+        var topOffset = evt.detail.y - top;
+        var leftOffset = evt.detail.x - left;
+        var radians = Math.atan2(topOffset-center[1],leftOffset-center[0]) * (180 / Math.PI);
+        if(radians < 0){
+          radians = radians + 360;
+        }
+        this.playhead = (radians / 360) * this.duration;
+        this.fire('clicked_timeline', { origEvent: evt, sender: this});
+      },
+      _resizeThings: function(){
+        this._svgWidth = this.radius * 2;
+      },
+      redrawCircles: function(){
+         var c = Math.PI * (this._circleRadius * 2);
+         var val = this.playhead_percentage * 100;
+         var circle = this.$.bar;
+
+         if (val < 0) { val = 0;}
+         if (val > 100) { val = 100;}
+         var pct = ((100-val)/100)*c;
+         circle.style.strokeDashoffset = pct;
+
+      },
+      _playhead_percentage: function(playhead, duration){
+
+        if( duration === 0 ){
+          return 0;
+        }else{
+          return playhead / duration;
+        }
+
+      },
+      ready: function(){
+
+        this.playhead = 35;
+        this.duration = 200;
+
+      }
+    });
+  </script>
+</dom-module>
